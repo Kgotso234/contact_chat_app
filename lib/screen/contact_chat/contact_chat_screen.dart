@@ -39,41 +39,75 @@ class _ContactChatScreenState extends State<ContactChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Contact Support')),
-      body: Padding(
-        padding: const EdgeInsets.all(12),
+      appBar: AppBar(title: const Text('Contact Us')),
+      body: SafeArea(
         child: Column(
           children: [
-            // Contact Form
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _messageController,
-              decoration: const InputDecoration(labelText: 'Message'),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                // Optionally process form input here
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Form submitted (not connected to backend)"),
+            // Contact Form Section
+            Container(
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    'Contact Us',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                );
-              },
-              child: const Text('Send'),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _messageController,
+                    maxLines: 3,
+                    decoration: const InputDecoration(
+                      labelText: 'Message',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            "Form submitted (not connected to backend)",
+                          ),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(40),
+                    ),
+                    child: const Text('Send'),
+                  ),
+                ],
+              ),
             ),
-            const Divider(height: 30),
 
-            // Chat Interface
+            // Chat Section
             Expanded(
               child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
                   final msg = messages[index];
@@ -81,21 +115,36 @@ class _ContactChatScreenState extends State<ContactChatScreen> {
                 },
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _chatInputController,
-                    decoration: const InputDecoration(
-                      hintText: 'Type a message...',
+
+            // Chat Input Area
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _chatInputController,
+                      decoration: InputDecoration(
+                        hintText: 'Type a message...',
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () => sendMessage(_chatInputController.text),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  CircleAvatar(
+                    radius: 20,
+                    child: IconButton(
+                      icon: const Icon(Icons.send, size: 20),
+                      onPressed: () => sendMessage(_chatInputController.text),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

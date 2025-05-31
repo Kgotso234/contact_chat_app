@@ -11,18 +11,22 @@ class ChatBubble extends StatelessWidget {
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        constraints: const BoxConstraints(maxWidth: 300),
         decoration: BoxDecoration(
-          color: isUser ? Colors.blue[100] : Colors.grey[300],
+          color: isUser ? Colors.blue.shade200 : Colors.grey.shade300,
           borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(12),
-            topRight: const Radius.circular(12),
-            bottomLeft: Radius.circular(isUser ? 12 : 0),
-            bottomRight: Radius.circular(isUser ? 0 : 12),
+            topLeft: const Radius.circular(20),
+            topRight: const Radius.circular(20),
+            bottomLeft: Radius.circular(isUser ? 20 : 4),
+            bottomRight: Radius.circular(isUser ? 4 : 20),
           ),
         ),
-        child: Text(text, style: TextStyle(color: Colors.black87)),
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 16, color: Colors.black87),
+        ),
       ),
     );
   }
